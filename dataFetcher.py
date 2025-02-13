@@ -1,3 +1,7 @@
+"""
+    Helper class that fetches data from ecfr.gov or the DB
+"""
+
 import requests
 from pymongo import MongoClient
 import gridfs
@@ -12,7 +16,6 @@ mongo_uri = os.getenv("MONGO_URI")
 client = MongoClient(mongo_uri)
 db = client.ecfr
 fs = gridfs.GridFS(db)  # GridFS instance
-
 # API Base URL
 BASE_URL = "https://www.ecfr.gov"
 
@@ -42,7 +45,6 @@ def fetch_title_content(title, issue_date):
 def fetch_title_content_db(title_number:int):
     """Retrieve XML content for a specific title number."""
     title = db.titles.find_one({"number": title_number})
-    print(title)
 
     if not title or "xml_content" not in title:
         print(f"No XML content found for Title {title_number}")
